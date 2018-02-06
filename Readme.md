@@ -35,7 +35,7 @@ The function `getValue` is used to retrieve a value for given longitude and
 latitude in `°`.
 
 ### Example
-```
+```JavaScript
 const gribs = require('grib2-simple')
 const fs = require('fs-extra')
 
