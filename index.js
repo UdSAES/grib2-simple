@@ -118,7 +118,7 @@ function parseSection0(buffer, startIndex) {
   const result = {
     discipline: buffer[startIndex + 6],
     edition: buffer[startIndex + 7],
-    totalLength: buffer.readUInt32BE(12)// + buffer.readUInt32BE(12)
+    totalLength: buffer.readUInt32BE(startIndex + 12)
   }
 
   return {
@@ -299,6 +299,16 @@ function parseAllSections(gribBuffer, startIndex) {
   }
 
   function getValue(lon, lat) {
+    
+    if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking === 0) {
+      return section5.data.dataRepresentationTemplate.R
+    } if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking !== 16) {
+      throw new VError({
+        name: 'NUMBER_OF_BITS_FOR_PACKING_NOT_IMPLEMENTED_ERROR',
+        cause: new Error(String(section5.data.dataRepresentationTemplate.numberOfBitsForPacking))
+      })
+    }
+    
     var bestIndex = Math.round(((lon - section3.data.gridDefinitionTemplate.Lo1) / section3.data.gridDefinitionTemplate.jInc)) * section3.data.gridDefinitionTemplate.numberOfPointsAlongParallel
     bestIndex += Math.round(((lat - section3.data.gridDefinitionTemplate.La1) / section3.data.gridDefinitionTemplate.iInc))
 
