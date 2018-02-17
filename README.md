@@ -12,7 +12,7 @@ might change in the future, though.
 ![Set of logos](./docs/logos_uds_aes_designetz_bmwi.png)
 
 ## License
-See the [LICENSE][./LICENSE] file for license rights and limitations (MIT).
+See the [LICENSE](./LICENSE) file for license rights and limitations (MIT).
 
 ## Install
 ```
