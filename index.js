@@ -1,3 +1,19 @@
+// grib2-simple
+//
+// Copyright 2018 The grib2-simple Developers. See the LICENSE file at
+// the top-level directory of this distribution and at
+// https://github.com/UdSAES/grib2-simple/LICENSE
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+// grib2-simple may be freely used and distributed under the MIT license
+
 'use strict'
 
 const moment = require('moment-timezone')
@@ -299,7 +315,7 @@ function parseAllSections(gribBuffer, startIndex) {
   }
 
   function getValue(lon, lat) {
-    
+
     if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking === 0) {
       return section5.data.dataRepresentationTemplate.R
     } if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking !== 16) {
@@ -308,7 +324,7 @@ function parseAllSections(gribBuffer, startIndex) {
         cause: new Error(String(section5.data.dataRepresentationTemplate.numberOfBitsForPacking))
       })
     }
-    
+
     var bestIndex = Math.round(((lon - section3.data.gridDefinitionTemplate.Lo1) / section3.data.gridDefinitionTemplate.jInc)) * section3.data.gridDefinitionTemplate.numberOfPointsAlongParallel
     bestIndex += Math.round(((lat - section3.data.gridDefinitionTemplate.La1) / section3.data.gridDefinitionTemplate.iInc))
 
