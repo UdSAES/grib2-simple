@@ -10,7 +10,7 @@ plans to extend the library to cover the full functionality of grib2 files. This
 migh change in the future, though.
 ## Install
 ```
-npm install grib2
+npm install grib2-simple
 ```
 
 ## Usage
