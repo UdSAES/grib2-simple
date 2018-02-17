@@ -7,7 +7,10 @@ Java program).
 covers the functionality that is needed to parse grib2 files provided by
 the open data project of `DWD` (Deutscher Wetter Dienst). There are currently no
 plans to extend the library to cover the full functionality of grib2 files. This
-migh change in the future, though.
+might change in the future, though.
+
+![Set of logos](./docs/logos_uds_aes_designetz_bmwi.png)
+
 ## Install
 ```
 npm install grib2-simple
