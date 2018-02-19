@@ -9,7 +9,7 @@ the open data project of `DWD` (Deutscher Wetter Dienst). There are currently no
 plans to extend the library to cover the full functionality of grib2 files. This
 might change in the future, though.
 
-![Set of logos](./docs/logos_uds_aes_designetz_bmwi.png)
+![Set of logos](https://github.com/UdSAES/grib2-simple/blob/master/docs/logos_uds_aes_designetz_bmwi.png?raw=true)
 
 ## License
 See the [LICENSE](./LICENSE) file for license rights and limitations (MIT).
