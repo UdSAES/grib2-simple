@@ -42,21 +42,24 @@ latitude in `°`.
 
 ### Example
 ```JavaScript
-const gribs = require('grib2-simple')
+const grib2 = require('./index')
 const fs = require('fs-extra')
 
 async function test() {
 
-  // load file content
-  const fileContentBuffer = await fs.readFile('./sample_data/testfile1.grib2')
+    // load file content
+  const fileContentBuffer = await fs.readFile('./sample_data/COSMODE_single_level_elements_PS_2018020500_000.grib2')
 
   // parse file content (this is a synchronous operation)
-  const instance = grib2(fileContnetBuffer)
+  const grib2Array = await grib2(fileContentBuffer)
 
-  const value = instance.getValue(7.13, 48.628)
+  // get value at predefined coordinate
+  const value = grib2Array[0].getValue(7.13, 48.628)
 
-  console.log("Reference time: " + instance.referenceTime)
-  console.log("Forecast time: " + instance.forecastTime)
+  console.log("Reference time: " + grib2Array[0].referenceTime)
+  console.log("Forecast time: " + grib2Array[0].forecastTime)
   console.log("Value at longitude 7.13 °N and 48.628 °E: " + value)
 }
+
+test()
 ```
