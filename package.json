@@ -8,9 +8,6 @@
   },
   "author": "Florian Wagner <florian.wagner@aut.uni-saarland.de>",
   "license": "MIT",
-  "publishConfig": {
-    "registry": "http://agnew.msaas.me:4873"
-  },
   "dependencies": {
     "debug": "^3.1.0",
     "fs-extra": "^5.0.0",
