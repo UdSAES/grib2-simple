@@ -1,13 +1,13 @@
 {
   "name": "grib2-simple",
-  "version": "0.1.2",
+  "version": "0.0.1",
   "description": "Tiny node.js library to parse the content of grib2 files provided by DWD",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "Florian Wagner <florian.wagner@aut.uni-saarland.de>",
-  "license": "ISC",
+  "license": "MIT",
   "publishConfig": {
     "registry": "http://agnew.msaas.me:4873"
   },
