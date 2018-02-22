@@ -1,6 +1,6 @@
 {
   "name": "grib2-simple",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Tiny node.js library to parse the content of grib2 files provided by DWD",
   "repository": {
     "type": "git",
