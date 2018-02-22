@@ -228,7 +228,7 @@ function parseSection4(buffer, startIndex, referenceTimestamp) {
   } else {
     throw new VError({
       name: 'PRODUCT_DEFINITION_TEMPLATE_NOT_SUPPORTED',
-      cause: new Error(productDefinitionTemplateNumber + '')
+      cause: new Error(result.productDefinitionTemplateNumber + '')
     })
   }
 
@@ -270,7 +270,7 @@ function parseSection6(buffer, startIndex) {
   }
 }
 
-function parseSection7(buffer, startIndex, section3, section5) {
+function parseSection7(buffer, startIndex) {
   const result = {
     length: buffer.readUInt32BE(startIndex),
     numberOfSection: buffer[startIndex + 4],
