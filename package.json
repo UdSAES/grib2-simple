@@ -18,5 +18,8 @@
     "lodash": "^4.17.5",
     "moment-timezone": "^0.5.14",
     "verror": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1"
   }
 }
