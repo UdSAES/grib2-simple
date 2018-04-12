@@ -325,8 +325,12 @@ function parseAllSections(gribBuffer, startIndex) {
       })
     }
 
-    var bestIndex = Math.round(((lon - section3.data.gridDefinitionTemplate.Lo1) / section3.data.gridDefinitionTemplate.jInc)) * section3.data.gridDefinitionTemplate.numberOfPointsAlongParallel
-    bestIndex += Math.round(((lat - section3.data.gridDefinitionTemplate.La1) / section3.data.gridDefinitionTemplate.iInc))
+    // The grid is stored by column and not by row!!!
+    const lonIndex = Math.round(((lon - section3.data.gridDefinitionTemplate.Lo1) / section3.data.gridDefinitionTemplate.jInc))
+    const latIndex = Math.round(((lat - section3.data.gridDefinitionTemplate.La1) / section3.data.gridDefinitionTemplate.iInc))
+    
+    var bestIndex = latIndex * section3.data.gridDefinitionTemplate.numberOfPointsAlongParallel
+    bestIndex += lonIndex
 
     if (bestIndex < 0 || bestIndex * 2 >= section7.data.rawData.length) {
       throw new VError({
@@ -356,7 +360,7 @@ function parseAllSections(gribBuffer, startIndex) {
   }
 }
 
-async function parseCompleteGrib2Buffer(grib2Buffer) {
+function parseCompleteGrib2Buffer(grib2Buffer) {
   assert(
     _.isBuffer(grib2Buffer),
     'grib2Buffer is not a buffer: ' + typeof(grib2Buffer)

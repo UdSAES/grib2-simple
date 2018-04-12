@@ -58,9 +58,9 @@ async function test() {
   // first parameter is longitude (East is positiv, West is negative)
   // second parameter is latitude (North is positive, South is negative)
   const value = grib2Array[0].getValue(7.13, 48.628)
-
-  console.log("Reference time: " + grib2Array[0].referenceTime)
-  console.log("Forecast time: " + grib2Array[0].forecastTime)
+  
+  console.log("Reference time: " + grib2Array[0].referenceTimestamp)
+  console.log("Forecast time: " + grib2Array[0].forecastTimestamp)
   console.log("Value at longitude 48.628 °N and 7.13 °E: " + value)
 }
 
