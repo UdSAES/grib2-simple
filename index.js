@@ -314,11 +314,25 @@ function parseAllSections(gribBuffer, startIndex) {
     return (section5.data.dataRepresentationTemplate.R + rawValue * c1) / c2
   }
 
-  function getValue(lon, lat) {
+  function getGridLocation(lon, lat) {
+    const lonIndex = Math.round(((lon - section3.data.gridDefinitionTemplate.Lo1) / section3.data.gridDefinitionTemplate.jInc))
+    const latIndex = Math.round(((lat - section3.data.gridDefinitionTemplate.La1) / section3.data.gridDefinitionTemplate.iInc))
 
+    var bestIndex = latIndex * section3.data.gridDefinitionTemplate.numberOfPointsAlongParallel
+    bestIndex += lonIndex
+
+    return {
+      lon: section3.data.gridDefinitionTemplate.Lo1 + section3.data.gridDefinitionTemplate.jInc * lonIndex,
+      lat: section3.data.gridDefinitionTemplate.La1 + section3.data.gridDefinitionTemplate.iInc * latIndex
+    }
+  }
+
+  function getValue(lon, lat) {
     if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking === 0) {
       return section5.data.dataRepresentationTemplate.R
-    } if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking !== 16) {
+    }
+    
+    if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking !== 16) {
       throw new VError({
         name: 'NUMBER_OF_BITS_FOR_PACKING_NOT_IMPLEMENTED_ERROR',
         cause: new Error(String(section5.data.dataRepresentationTemplate.numberOfBitsForPacking))
@@ -345,6 +359,7 @@ function parseAllSections(gribBuffer, startIndex) {
     referenceTimestamp: section1.data.referenceTimestamp,
     forecastTimestamp: section4.data.productDefinitionTemplate.forecastTimestamp,
     getValue: getValue,
+    getGridLocation: getGridLocation,
     _startIndex: startIndex,
     _lengthOfRawData: section0.data.totalLength,
     sections: {
