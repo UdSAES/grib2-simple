@@ -327,6 +327,50 @@ function parseAllSections(gribBuffer, startIndex) {
     }
   }
 
+  function countSetBits(n) {
+    let count = 0
+    while (n > 0) {
+      n = n & (n - 1)
+      count++
+    }
+    return count
+  }
+
+  function countUnsetBitsTillPosition(n, exclusiveEndPosition) {
+    let position = 0
+    let bitCount = 0
+    while(position < exclusiveEndPosition) {
+      const bit = (n >> (7 - position)) & 0x01
+      if (bit === 0) {
+        bitCount++
+      }
+      position++
+    }
+
+    return bitCount
+  }
+
+  function getInvalidValuesBeforeIndex (index) {
+    let invalidCount = 0
+    const endIndex = Math.floor(index / 8)
+    const bitIndex = index % 8
+    for (let i = 0; i < endIndex; i++) {
+      const byte = section6.data.bitMap[i]
+      const setBits = countSetBits(byte)
+      invalidCount += 8 - setBits
+    }
+
+    invalidCount += countUnsetBitsTillPosition(section6.data.bitMap[endIndex], bitIndex)
+
+    return invalidCount
+  }
+
+  function getValidity(index) {
+    const byte = section6.data.bitMap[Math.floor(index/8)]
+    const bit = (byte >> (7 - (index % 8))) & 0x01
+    return bit > 0
+  }
+
   function getValue(lon, lat) {
     if (section5.data.dataRepresentationTemplate.numberOfBitsForPacking === 0) {
       return section5.data.dataRepresentationTemplate.R
@@ -342,17 +386,36 @@ function parseAllSections(gribBuffer, startIndex) {
     // The grid is stored by column and not by row!!!
     const lonIndex = Math.round(((lon - section3.data.gridDefinitionTemplate.Lo1) / section3.data.gridDefinitionTemplate.jInc))
     const latIndex = Math.round(((lat - section3.data.gridDefinitionTemplate.La1) / section3.data.gridDefinitionTemplate.iInc))
-    
+
     var bestIndex = latIndex * section3.data.gridDefinitionTemplate.numberOfPointsAlongParallel
     bestIndex += lonIndex
+    
+    let invalidCount = 0
+    let isInvalid = false
+    if (section6.data.bitMap.length > 0) {
+      invalidCount= getInvalidValuesBeforeIndex(bestIndex)
+      isInvalid = !getValidity(bestIndex)
+    }
+    if (isInvalid) {
+      return null
+    }
+    
+    bestIndex -= getInvalidValuesBeforeIndex(bestIndex)
+    if (bestIndex < 0) {
+      return null
+    }
 
     if (bestIndex < 0 || bestIndex * 2 >= section7.data.rawData.length) {
       throw new VError({
         name: 'COORDINATES_OUTSIDE_GRID_ERROR',
-        cause: new Error(JSON.stringify({lon: lon, lat: lat}))
+        cause: new Error(JSON.stringify({
+          lon: lon,
+          lat: lat
+        }))
       })
     }
-    return convertRawValue(section7.data.rawData.readUInt16BE(bestIndex*2))
+    
+    return convertRawValue(section7.data.rawData.readUInt16BE(bestIndex * 2))
   }
 
   return {
